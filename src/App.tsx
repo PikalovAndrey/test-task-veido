@@ -69,10 +69,12 @@ function App() {
             dateRange: { start, end },
           }))
         }
-        onProviderChange={(provider) =>
+        onProviderChange={(provider: string) =>
           handleFilterChange("provider", provider)
         }
-        onDriverChange={(driver) => handleFilterChange("driver", driver)}
+        onDriverChange={(driver: string) =>
+          handleFilterChange("driver", driver)
+        }
         filters={filters}
       />
       <div className="p-4">

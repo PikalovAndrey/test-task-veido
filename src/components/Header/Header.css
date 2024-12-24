@@ -64,8 +64,8 @@
   font-weight: 500;
   color: #4a4a4a;
   border-bottom: 2px solid transparent;
-  padding: 8px 16px; /* Однакові відступи для всіх кнопок */
-  min-width: 120px; /* Мінімальна ширина для однакового розміру */
+  padding: 8px 16px;
+  min-width: 120px;
   text-align: center;
 }
 
@@ -82,8 +82,8 @@
   border-radius: 50%;
   background-color: #e0e0e0;
   color: #4a4a4a;
-  margin-right: 8px; /* Відступ між точкою і текстом */
-  flex-shrink: 0; /* Запобігає стисканню точки */
+  margin-right: 8px;
+  flex-shrink: 0;
 }
 
 .planned-dot {

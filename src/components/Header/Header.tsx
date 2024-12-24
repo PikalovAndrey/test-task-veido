@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "./Header.css";
@@ -18,6 +18,8 @@ export const Header: React.FC<HeaderProps> = ({
   onTypeChange,
   selectedType,
 }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const plannedCount = tableInfo.filter((row) => row.Type === "Planned").length;
   const unplannedCount = tableInfo.filter(
     (row) => row.Type === "Unplanned"
@@ -25,6 +27,11 @@ export const Header: React.FC<HeaderProps> = ({
   const emergencyCount = tableInfo.filter(
     (row) => row.Type === "Emergency"
   ).length;
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    onSearch(e.target.value);
+  };
 
   return (
     <div className="header">
@@ -40,7 +47,8 @@ export const Header: React.FC<HeaderProps> = ({
             type="text"
             placeholder="Search"
             className="search-input"
-            onChange={(e) => onSearch(e.target.value)}
+            value={searchTerm}
+            onChange={handleSearchChange}
           />
         </div>
       </div>
@@ -56,27 +64,27 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
         <button
           className={`filter-button ${
-            selectedType === "PLANNED" ? "selected" : ""
+            selectedType === "Planned" ? "selected" : ""
           }`}
-          onClick={() => onTypeChange("PLANNED")}
+          onClick={() => onTypeChange("Planned")}
         >
           <span className="status-dot planned-dot">{plannedCount}</span>
           PLANNED
         </button>
         <button
           className={`filter-button ${
-            selectedType === "UNPLANNED" ? "selected" : ""
+            selectedType === "Unplanned" ? "selected" : ""
           }`}
-          onClick={() => onTypeChange("UNPLANNED")}
+          onClick={() => onTypeChange("Unplanned")}
         >
           <span className="status-dot unplanned-dot">{unplannedCount}</span>
           UNPLANNED
         </button>
         <button
           className={`filter-button ${
-            selectedType === "EMERGENCY" ? "selected" : ""
+            selectedType === "Emergency" ? "selected" : ""
           }`}
-          onClick={() => onTypeChange("EMERGENCY")}
+          onClick={() => onTypeChange("Emergency")}
         >
           <span className="status-dot emergency-dot">{emergencyCount}</span>
           EMERGENCY

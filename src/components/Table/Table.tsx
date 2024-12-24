@@ -9,16 +9,23 @@ import {
   faTruck,
 } from "@fortawesome/free-solid-svg-icons";
 import { TableRow } from "../../types/TableRow";
-
 interface TableProps {
   data: TableRow[];
   rowsPerPage: number;
   currentPage: number;
 }
 const Table: React.FC<TableProps> = ({ data, rowsPerPage, currentPage }) => {
+  const [tableData, setTableData] = useState<TableRow[]>(data);
+  useEffect(() => {
+    setTableData(data);
+  }, [data]);
+  const deleteItem = (itemId: number) => {
+    const updatedData = tableData.filter((row) => row.ID !== itemId);
+    setTableData(updatedData);
+  };
   const startRow = (currentPage - 1) * rowsPerPage;
   const endRow = startRow + rowsPerPage;
-  const currentData = data.slice(startRow, endRow);
+  const currentData = tableData.slice(startRow, endRow);
 
   return (
     <div className="table-container">
@@ -79,7 +86,11 @@ const Table: React.FC<TableProps> = ({ data, rowsPerPage, currentPage }) => {
                     icon={faEdit}
                     style={{ marginRight: "8px" }}
                   />
-                  <FontAwesomeIcon icon={faTrashAlt} />
+                  <FontAwesomeIcon
+                    icon={faTrashAlt}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => deleteItem(row.ID)}
+                  />
                 </div>
               </td>
             </tr>
