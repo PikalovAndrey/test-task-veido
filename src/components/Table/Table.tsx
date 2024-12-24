@@ -29,7 +29,7 @@ const Table: React.FC = () => {
   const [tableInfo, setTableInfo] = useState<TableRow[]>([]);
 
   useEffect(() => {
-    fetch("/data.json")
+    fetch(`${process.env.PUBLIC_URL}/data.json`)
       .then((response) => response.json())
       .then((data) => {
         setTableInfo(data);
