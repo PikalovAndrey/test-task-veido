@@ -1,0 +1,155 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: white;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo {
+  width: 24px;
+  height: 24px;
+}
+
+.logo-text {
+  font-weight: 500;
+  color: #4a4a4a;
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-input {
+  padding: 8px 16px 8px 36px;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 4px;
+  width: 250px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+.center-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.all-button {
+  color: #485fc7;
+  font-weight: 500;
+  border: none;
+  background: none;
+  border-bottom: 2px solid #485fc7;
+  padding-bottom: 4px;
+  cursor: pointer;
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.planned {
+  background-color: #e6f4ea;
+  color: #1e8e3e;
+}
+
+.planned .status-dot {
+  background-color: #1e8e3e;
+}
+
+.unplanned {
+  background-color: #fef7e0;
+  color: #f9ab00;
+}
+
+.unplanned .status-dot {
+  background-color: #f9ab00;
+}
+
+.emergency {
+  background-color: #fce8e6;
+  color: #d93025;
+}
+
+.emergency .status-dot {
+  background-color: #d93025;
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.user-initials {
+  color: #4a4a4a;
+}
+
+.user-time {
+  color: #888;
+}
+
+.add-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #485fc7;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #364fc7;
+}
+
+.plus-icon {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}

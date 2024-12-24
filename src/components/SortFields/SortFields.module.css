@@ -1,0 +1,70 @@
+.container {
+  width: 100%;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 16px;
+}
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dateRange {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dateInput {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dateInput input {
+  padding: 8px 8px 8px 32px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  width: 140px;
+  font-size: 14px;
+}
+
+.dateInput svg {
+  position: absolute;
+  left: 8px;
+  color: #6b7280;
+  width: 16px;
+  height: 16px;
+}
+
+.select {
+  position: relative;
+  width: 120px;
+}
+
+.select select {
+  width: 100%;
+  padding: 8px 24px 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background: white;
+  appearance: none;
+  font-size: 14px;
+}
+
+.select::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #6b7280;
+  pointer-events: none;
+}
