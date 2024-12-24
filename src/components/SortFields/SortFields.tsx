@@ -39,16 +39,14 @@ export const SortFields = () => {
           </div>
         </div>
 
-        {/* Provider Filter */}
         <div className={styles.select}>
           <select defaultValue="all">
             <option value="all">Provider</option>
-            <option value="provider1">Provider 1</option>
-            <option value="provider2">Provider 2</option>
+            <option value="provider1">Firecar, LLC</option>
+            <option value="provider2">r-way trailer repair llc</option>
           </select>
         </div>
 
-        {/* Truck Filter */}
         <div className={styles.select}>
           <select defaultValue="all">
             <option value="all">Truck</option>
@@ -57,7 +55,6 @@ export const SortFields = () => {
           </select>
         </div>
 
-        {/* Trailer Filter */}
         <div className={styles.select}>
           <select defaultValue="all">
             <option value="all">Trailer</option>
@@ -66,7 +63,6 @@ export const SortFields = () => {
           </select>
         </div>
 
-        {/* Driver Filter */}
         <div className={styles.select}>
           <select defaultValue="all">
             <option value="all">Driver</option>
@@ -75,7 +71,6 @@ export const SortFields = () => {
           </select>
         </div>
 
-        {/* Sort By */}
         <div className={styles.select}>
           <select defaultValue="latest">
             <option value="latest">Latest</option>

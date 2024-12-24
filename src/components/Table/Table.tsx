@@ -8,54 +8,20 @@ import {
   faTrashAlt,
   faTruck,
 } from "@fortawesome/free-solid-svg-icons";
+import { TableRow } from "../../types/TableRow";
 
-interface TableRow {
-  ID: number;
-  "Order Number": string;
-  Equipment: string;
-  Driver: string;
-  Type: string;
-  "Completed Date": string;
-  Provider: string;
-  "Engine Hours": number;
-  Odometer: string;
-  "Last Service": string;
-  "Total Amount": string;
-  "Solved Defects": string;
-  Files: string;
+interface TableProps {
+  data: TableRow[];
+  rowsPerPage: number;
+  currentPage: number;
 }
-
-const Table: React.FC = () => {
-  const [tableInfo, setTableInfo] = useState<TableRow[]>([]);
-
-  useEffect(() => {
-    fetch(`${process.env.PUBLIC_URL}/data.json`)
-      .then((response) => response.json())
-      .then((data) => {
-        setTableInfo(data);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  }, []);
+const Table: React.FC<TableProps> = ({ data, rowsPerPage, currentPage }) => {
+  const startRow = (currentPage - 1) * rowsPerPage;
+  const endRow = startRow + rowsPerPage;
+  const currentData = data.slice(startRow, endRow);
 
   return (
     <div className="table-container">
-      <div className="status-pills">
-        <div className="status-pill planned">
-          <span>PLANNED</span>
-          <span>14</span>
-        </div>
-        <div className="status-pill unplanned">
-          <span>UNPLANNED</span>
-          <span>2</span>
-        </div>
-        <div className="status-pill emergency">
-          <span>EMERGENCY</span>
-          <span>1</span>
-        </div>
-      </div>
-
       <table className="table-small">
         <thead>
           <tr>
@@ -76,7 +42,7 @@ const Table: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {tableInfo.map((row) => (
+          {currentData.map((row) => (
             <tr key={row.ID}>
               <td>{row.ID}</td>
               <td>{row["Order Number"]}</td>

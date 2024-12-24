@@ -54,56 +54,51 @@
   gap: 16px;
 }
 
-.all-button {
-  color: #485fc7;
-  font-weight: 500;
-  border: none;
-  background: none;
-  border-bottom: 2px solid #485fc7;
-  padding-bottom: 4px;
-  cursor: pointer;
-}
-
-.status-pill {
+.filter-button {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-size: 14px;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  color: #4a4a4a;
+  border-bottom: 2px solid transparent;
+  padding: 8px 16px; /* Однакові відступи для всіх кнопок */
+  min-width: 120px; /* Мінімальна ширина для однакового розміру */
+  text-align: center;
+}
+
+.selected {
+  border-bottom: 2px solid #485fc7;
 }
 
 .status-dot {
-  width: 8px;
-  height: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
+  background-color: #e0e0e0;
+  color: #4a4a4a;
+  margin-right: 8px; /* Відступ між точкою і текстом */
+  flex-shrink: 0; /* Запобігає стисканню точки */
 }
 
-.planned {
+.planned-dot {
   background-color: #e6f4ea;
   color: #1e8e3e;
 }
 
-.planned .status-dot {
-  background-color: #1e8e3e;
-}
-
-.unplanned {
+.unplanned-dot {
   background-color: #fef7e0;
   color: #f9ab00;
 }
 
-.unplanned .status-dot {
-  background-color: #f9ab00;
-}
-
-.emergency {
+.emergency-dot {
   background-color: #fce8e6;
   color: #d93025;
-}
-
-.emergency .status-dot {
-  background-color: #d93025;
 }
 
 .right-section {
