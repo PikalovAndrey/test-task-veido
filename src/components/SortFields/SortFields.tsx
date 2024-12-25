@@ -5,6 +5,8 @@ interface SortFieldsProps {
   onDateRangeChange: (start: string, end: string) => void;
   onProviderChange: (provider: string) => void;
   onDriverChange: (driver: string) => void;
+  onTruckChange: (truck: string) => void;
+  onTrailerChange: (trailer: string) => void;
   filters: {
     search: string;
     dateRange: { start: string; end: string };
@@ -20,6 +22,8 @@ export const SortFields: FC<SortFieldsProps> = ({
   onDateRangeChange,
   onProviderChange,
   onDriverChange,
+  onTruckChange,
+  onTrailerChange,
   filters,
 }) => {
   return (
@@ -83,13 +87,10 @@ export const SortFields: FC<SortFieldsProps> = ({
           </select>
         </div>
 
-        {/* Truck */}
         <div className={styles.select}>
           <select
             value={filters.truck}
-            onChange={(e) => {
-              // Якщо потрібно, додаємо обробник для змін truck
-            }}
+            onChange={(e) => onTruckChange(e.target.value)}
           >
             <option value="all">Truck</option>
             <option value="truck1">Truck 1</option>
@@ -97,13 +98,10 @@ export const SortFields: FC<SortFieldsProps> = ({
           </select>
         </div>
 
-        {/* Trailer */}
         <div className={styles.select}>
           <select
             value={filters.trailer}
-            onChange={(e) => {
-              // Якщо потрібно, додаємо обробник для змін trailer
-            }}
+            onChange={(e) => onTrailerChange(e.target.value)}
           >
             <option value="all">Trailer</option>
             <option value="trailer1">Trailer 1</option>
@@ -111,7 +109,6 @@ export const SortFields: FC<SortFieldsProps> = ({
           </select>
         </div>
 
-        {/* Driver */}
         <div className={styles.select}>
           <select
             value={filters.driver}

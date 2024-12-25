@@ -21,9 +21,11 @@ export const Header: React.FC<HeaderProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
 
   const plannedCount = tableInfo.filter((row) => row.Type === "Planned").length;
+
   const unplannedCount = tableInfo.filter(
     (row) => row.Type === "Unplanned"
   ).length;
+
   const emergencyCount = tableInfo.filter(
     (row) => row.Type === "Emergency"
   ).length;
@@ -93,7 +95,11 @@ export const Header: React.FC<HeaderProps> = ({
 
       <div className="right-section">
         <div className="user-info">
-          <img src="/path-to-avatar.png" alt="User avatar" className="avatar" />
+          <img
+            src="img/cristopher-mcGill.jpg"
+            alt="User avatar"
+            className="avatar"
+          />
           <span className="user-initials">VS</span>
           <span className="user-time">1:30</span>
         </div>

@@ -13,16 +13,20 @@ interface TableProps {
   data: TableRow[];
   rowsPerPage: number;
   currentPage: number;
+  onDeleteItem: (itemId: number) => void;
 }
-const Table: React.FC<TableProps> = ({ data, rowsPerPage, currentPage }) => {
+const Table: React.FC<TableProps> = ({
+  data,
+  rowsPerPage,
+  currentPage,
+  onDeleteItem,
+}) => {
   const [tableData, setTableData] = useState<TableRow[]>(data);
+
   useEffect(() => {
     setTableData(data);
   }, [data]);
-  const deleteItem = (itemId: number) => {
-    const updatedData = tableData.filter((row) => row.ID !== itemId);
-    setTableData(updatedData);
-  };
+
   const startRow = (currentPage - 1) * rowsPerPage;
   const endRow = startRow + rowsPerPage;
   const currentData = tableData.slice(startRow, endRow);
@@ -61,7 +65,11 @@ const Table: React.FC<TableProps> = ({ data, rowsPerPage, currentPage }) => {
               </td>
               <td>
                 <div className="driver-cell">
-                  <div className="driver-avatar"></div>
+                  <img
+                    src={`${process.env.PUBLIC_URL}${row.img}`}
+                    alt="driver-avatar"
+                    className="driver-avatar"
+                  />
                   {row.Driver}
                 </div>
               </td>
@@ -89,7 +97,7 @@ const Table: React.FC<TableProps> = ({ data, rowsPerPage, currentPage }) => {
                   <FontAwesomeIcon
                     icon={faTrashAlt}
                     style={{ cursor: "pointer" }}
-                    onClick={() => deleteItem(row.ID)}
+                    onClick={() => onDeleteItem(row.ID)}
                   />
                 </div>
               </td>

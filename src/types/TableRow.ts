@@ -12,4 +12,5 @@ export interface TableRow {
   "Total Amount": string;
   "Solved Defects": string;
   Files: string;
+  img: string;
 }

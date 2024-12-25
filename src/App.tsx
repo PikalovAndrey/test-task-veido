@@ -54,6 +54,11 @@ function App() {
     setCurrentPage(newPage);
   };
 
+  const handleDeleteItem = (itemId: number) => {
+    const updatedData = tableInfo.filter((row) => row.ID !== itemId);
+    setTableInfo(updatedData);
+  };
+
   return (
     <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
       <Header
@@ -64,16 +69,17 @@ function App() {
       />
       <SortFields
         onDateRangeChange={(start, end) =>
-          setFilters((prev) => ({
-            ...prev,
-            dateRange: { start, end },
-          }))
+          setFilters((prev) => ({ ...prev, dateRange: { start, end } }))
         }
         onProviderChange={(provider: string) =>
           handleFilterChange("provider", provider)
         }
         onDriverChange={(driver: string) =>
           handleFilterChange("driver", driver)
+        }
+        onTruckChange={(truck: string) => handleFilterChange("truck", truck)}
+        onTrailerChange={(trailer: string) =>
+          handleFilterChange("trailer", trailer)
         }
         filters={filters}
       />
@@ -82,6 +88,7 @@ function App() {
           data={filteredData}
           rowsPerPage={rowsPerPage}
           currentPage={currentPage}
+          onDeleteItem={handleDeleteItem}
         />
       </div>
       <Footer
@@ -96,4 +103,3 @@ function App() {
 }
 
 export default App;
-

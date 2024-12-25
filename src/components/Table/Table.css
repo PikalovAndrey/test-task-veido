@@ -128,3 +128,12 @@ table.table-small {
 .table-small th {
   border-bottom: 1px solid #e0e0e0;
 }
+
+.driver-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #e0e0e0;
+  flex-shrink: 0;
+}
