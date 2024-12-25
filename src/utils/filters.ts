@@ -11,40 +11,39 @@ export const filterData = (
     driver: string;
     type: string;
   }
-) => {
+): TableRow[] => {
   return data.filter((row) => {
-    const matchesSearch = !filters.search
-      ? true
-      : Object.values(row).some((value) =>
-          value.toString().toLowerCase().includes(filters.search.toLowerCase())
-        );
-
-    const matchesDateRange =
-      !filters.dateRange.start || !filters.dateRange.end
-        ? true
-        : row["Completed Date"] >= filters.dateRange.start &&
-          row["Completed Date"] <= filters.dateRange.end;
-
-    const matchesProvider =
-      !filters.provider || filters.provider === "all"
-        ? true
-        : row.Provider === filters.provider;
+    const matchesSearch =
+      row["Order Number"]
+        .toLowerCase()
+        .includes(filters.search.toLowerCase()) ||
+      row.Equipment.toLowerCase().includes(filters.search.toLowerCase()) ||
+      row.Driver.toLowerCase().includes(filters.search.toLowerCase()) ||
+      row.Provider.toLowerCase().includes(filters.search.toLowerCase());
 
     const matchesType =
-      !filters.type || filters.type === "ALL"
-        ? true
-        : row.Type === filters.type.toUpperCase();
+      filters.type === "ALL" ||
+      row.Type.toLowerCase() === filters.type.toLowerCase();
+
+    const matchesProvider =
+      filters.provider === "all" ||
+      row.Provider.toLowerCase() === filters.provider.toLowerCase();
+
+    const matchesTruck =
+      filters.truck === "all" ||
+      row.Equipment.toLowerCase() === filters.truck.toLowerCase();
 
     const matchesDriver =
-      !filters.driver || filters.driver === "all"
-        ? true
-        : row.Driver === filters.driver;
+      filters.driver === "all" ||
+      row.Driver.toLowerCase() === filters.driver.toLowerCase();
+
+    // Add similar conditions for other filters like trailer, dateRange, etc.
 
     return (
       matchesSearch &&
-      matchesDateRange &&
-      matchesProvider &&
       matchesType &&
+      matchesProvider &&
+      matchesTruck &&
       matchesDriver
     );
   });

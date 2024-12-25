@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "./Header.css";
-import header_logo from "../../assets/header_logo.png";
+import header_logo from "../../assets/header_logo.jpg";
 import { TableRow } from "../../types/TableRow";
 
 interface HeaderProps {
