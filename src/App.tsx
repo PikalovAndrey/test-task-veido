@@ -24,18 +24,13 @@ function App() {
     type: "ALL",
   });
 
-  useEffect(() => {
-    fetch(`${process.env.PUBLIC_URL}/data.json`)
-      .then((response) => response.json())
-      .then((data) => {
-        setTableInfo(data);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  }, []);
-
   const filteredData = filterData(tableInfo, filters);
+  const drivers = Array.from(
+    new Set(tableInfo.map((item) => `${item.Driver},${item.img}`))
+  ).map((driverInfo) => {
+    const [name, img] = driverInfo.split(",");
+    return { name, img };
+  });
 
   const handleSearch = (searchTerm: string) => {
     setFilters((prev) => ({ ...prev, search: searchTerm }));
@@ -69,8 +64,19 @@ function App() {
   };
 
   const handleAddItem = (newRow: TableRow) => {
-    setTableInfo([...tableInfo, newRow]);
+    setTableInfo([newRow, ...tableInfo]);
   };
+
+  useEffect(() => {
+    fetch(`${process.env.PUBLIC_URL}/data.json`)
+      .then((response) => response.json())
+      .then((data) => {
+        setTableInfo(data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, []);
 
   return (
     <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
@@ -116,6 +122,7 @@ function App() {
       />
       {isAddModalOpen && (
         <AddModal
+          drivers={drivers}
           onSave={handleAddItem}
           onClose={() => setIsAddModalOpen(false)}
         />

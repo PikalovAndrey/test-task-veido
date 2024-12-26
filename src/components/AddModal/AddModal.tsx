@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import { TableRow } from "../../types/TableRow";
+import "../AddModal/AddModal.css";
 
 interface AddModalProps {
+  drivers: {
+    name: string;
+    img: string;
+  }[];
   onSave: (newRow: TableRow) => void;
   onClose: () => void;
 }
 
-const AddModal: React.FC<AddModalProps> = ({ onSave, onClose }) => {
+const AddModal: React.FC<AddModalProps> = ({ drivers, onSave, onClose }) => {
   const [newRow, setNewRow] = useState<TableRow>({
     ID: Date.now(),
     "Order Number": "",
     Equipment: "",
-    Driver: "",
+    Driver: drivers.length > 0 ? drivers[0].name : "",
     Type: "",
     "Completed Date": "",
     Provider: "",
@@ -24,12 +29,31 @@ const AddModal: React.FC<AddModalProps> = ({ onSave, onClose }) => {
     img: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewRow((prevRow) => ({
       ...prevRow,
       [name]: value,
     }));
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    if (name === "Driver") {
+      const selectedDriver = drivers.find((driver) => driver.name === value);
+      setNewRow((prevRow) => ({
+        ...prevRow,
+        [name]: value,
+        img: selectedDriver
+          ? `${process.env.PUBLIC_URL}${selectedDriver.img}`
+          : "",
+      }));
+    } else {
+      setNewRow((prevRow) => ({
+        ...prevRow,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,7 +75,7 @@ const AddModal: React.FC<AddModalProps> = ({ onSave, onClose }) => {
               type="text"
               name="Order Number"
               value={newRow["Order Number"]}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </label>
           <label>
@@ -60,17 +84,22 @@ const AddModal: React.FC<AddModalProps> = ({ onSave, onClose }) => {
               type="text"
               name="Equipment"
               value={newRow.Equipment}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </label>
           <label>
             Driver:
-            <input
-              type="text"
+            <select
               name="Driver"
               value={newRow.Driver}
-              onChange={handleChange}
-            />
+              onChange={handleSelectChange}
+            >
+              {drivers.map((driver) => (
+                <option key={driver.name} value={driver.name}>
+                  {driver.name}
+                </option>
+              ))}
+            </select>
           </label>
           <label>
             Type:
@@ -78,7 +107,7 @@ const AddModal: React.FC<AddModalProps> = ({ onSave, onClose }) => {
               type="text"
               name="Type"
               value={newRow.Type}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </label>
           <label>
@@ -87,7 +116,7 @@ const AddModal: React.FC<AddModalProps> = ({ onSave, onClose }) => {
               type="text"
               name="Completed Date"
               value={newRow["Completed Date"]}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </label>
           <label>
@@ -96,7 +125,7 @@ const AddModal: React.FC<AddModalProps> = ({ onSave, onClose }) => {
               type="text"
               name="Provider"
               value={newRow.Provider}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </label>
           <label>
@@ -105,7 +134,7 @@ const AddModal: React.FC<AddModalProps> = ({ onSave, onClose }) => {
               type="number"
               name="Engine Hours"
               value={newRow["Engine Hours"]}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </label>
           <label>
@@ -114,7 +143,7 @@ const AddModal: React.FC<AddModalProps> = ({ onSave, onClose }) => {
               type="text"
               name="Odometer"
               value={newRow.Odometer}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </label>
           <label>
@@ -123,7 +152,7 @@ const AddModal: React.FC<AddModalProps> = ({ onSave, onClose }) => {
               type="text"
               name="Last Service"
               value={newRow["Last Service"]}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </label>
           <label>
@@ -132,7 +161,7 @@ const AddModal: React.FC<AddModalProps> = ({ onSave, onClose }) => {
               type="text"
               name="Total Amount"
               value={newRow["Total Amount"]}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </label>
           <label>
@@ -141,7 +170,7 @@ const AddModal: React.FC<AddModalProps> = ({ onSave, onClose }) => {
               type="text"
               name="Solved Defects"
               value={newRow["Solved Defects"]}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </label>
           <label>
@@ -150,7 +179,7 @@ const AddModal: React.FC<AddModalProps> = ({ onSave, onClose }) => {
               type="text"
               name="Files"
               value={newRow.Files}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </label>
           <label>
@@ -159,7 +188,7 @@ const AddModal: React.FC<AddModalProps> = ({ onSave, onClose }) => {
               type="text"
               name="img"
               value={newRow.img}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </label>
           <button type="submit">Save</button>
