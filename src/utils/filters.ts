@@ -26,11 +26,14 @@ export const filterData = (data: TableRow[], filters: Filters) => {
       }
     }
 
-    if (
-      filters.search &&
-      !row["Order Number"].toLowerCase().includes(filters.search.toLowerCase())
-    ) {
-      return false;
+    if (filters.search) {
+      const searchTerm = filters.search.toLowerCase();
+      const rowValues = Object.values(row).map((value) =>
+        String(value).toLowerCase()
+      );
+      if (!rowValues.some((value) => value.includes(searchTerm))) {
+        return false;
+      }
     }
 
     if (filters.provider !== "all" && row.Provider !== filters.provider) {
