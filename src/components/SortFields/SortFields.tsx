@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import styles from "../SortFields/SortFields.module.css";
+import styles from "./SortFields.module.css";
 import { TableRow } from "../../types/TableRow";
 
 interface SortFieldsProps {
@@ -150,9 +150,9 @@ export const SortFields: FC<SortFieldsProps> = ({
             value={filters.type}
             onChange={(e) => onTypeChange(e.target.value)}
           >
-            <option value="latest">Latest</option>{" "}
-            <option value="oldest">Oldest</option>{" "}
-          </select>{" "}
+            <option value="latest">Latest</option>
+            <option value="oldest">Oldest</option>
+          </select>
         </div>
       </div>
     </div>

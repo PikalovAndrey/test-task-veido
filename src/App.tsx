@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import Table from "./components/Table/Table.tsx";
 import { Header } from "./components/Header/Header.tsx";
@@ -24,7 +24,28 @@ function App() {
     type: "ALL",
   });
 
-  const filteredData = filterData(tableInfo, filters);
+  const filteredData = useMemo(
+    () => filterData(tableInfo, filters),
+    [tableInfo, filters]
+  );
+
+  const sortedData = useMemo(() => {
+    return filteredData.sort((a, b) => {
+      if (filters.type === "latest") {
+        return (
+          new Date(b["Completed Date"]).getTime() -
+          new Date(a["Completed Date"]).getTime()
+        );
+      } else if (filters.type === "oldest") {
+        return (
+          new Date(a["Completed Date"]).getTime() -
+          new Date(b["Completed Date"]).getTime()
+        );
+      }
+      return 0;
+    });
+  }, [filteredData, filters.type]);
+
   const drivers = Array.from(
     new Set(tableInfo.map((item) => `${item.Driver},${item.img}`))
   ).map((driverInfo) => {
@@ -39,6 +60,14 @@ function App() {
 
   const handleFilterChange = (filterName: string, value: string) => {
     setFilters((prev) => ({ ...prev, [filterName]: value }));
+    setCurrentPage(1);
+  };
+
+  const handleDateRangeChange = (start: string, end: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      dateRange: { start, end },
+    }));
     setCurrentPage(1);
   };
 
@@ -74,7 +103,7 @@ function App() {
         setTableInfo(data);
       })
       .catch((e) => {
-        console.error(e);
+        console.error("Error loading data:", e);
       });
   }, []);
 
@@ -88,25 +117,21 @@ function App() {
         onAddClick={() => setIsAddModalOpen(true)}
       />
       <SortFields
-        onDateRangeChange={(start, end) =>
-          setFilters((prev) => ({ ...prev, dateRange: { start, end } }))
-        }
-        onProviderChange={(provider: string) =>
+        onDateRangeChange={handleDateRangeChange}
+        onProviderChange={(provider) =>
           handleFilterChange("provider", provider)
         }
-        onDriverChange={(driver: string) =>
-          handleFilterChange("driver", driver)
-        }
-        onTruckChange={(truck: string) => handleFilterChange("truck", truck)}
-        onTrailerChange={(trailer: string) =>
-          handleFilterChange("trailer", trailer)
-        }
+        onDriverChange={(driver) => handleFilterChange("driver", driver)}
+        onTruckChange={(truck) => handleFilterChange("truck", truck)}
+        onTrailerChange={(trailer) => handleFilterChange("trailer", trailer)}
+        onTypeChange={(type) => handleFilterChange("type", type)}
         filters={filters}
         tableInfo={tableInfo}
       />
+
       <div className="p-4">
         <Table
-          data={filteredData}
+          data={sortedData}
           rowsPerPage={rowsPerPage}
           currentPage={currentPage}
           onSaveItem={handleSaveItem}

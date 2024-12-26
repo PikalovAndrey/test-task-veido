@@ -1,64 +1,61 @@
 import { TableRow } from "../types/TableRow";
 
-export const filterData = (
-  data: TableRow[],
-  filters: {
-    search: string;
-    dateRange: { start: string; end: string };
-    provider: string;
-    truck: string;
-    trailer: string;
-    driver: string;
-    type: string;
-  }
-): TableRow[] => {
+interface Filters {
+  search: string;
+  dateRange: { start: string; end: string };
+  provider: string;
+  truck: string;
+  trailer: string;
+  driver: string;
+  type: string;
+}
+
+export const filterData = (data: TableRow[], filters: Filters) => {
   return data.filter((row) => {
-    const matchesSearch =
-      row.Equipment.toLowerCase().includes(filters.search.toLowerCase()) ||
-      row.ID.toString().includes(filters.search.toLowerCase()) ||
-      row.Odometer.toLowerCase().includes(filters.search.toLowerCase()) ||
-      row.Driver.toLowerCase().includes(filters.search.toLowerCase()) ||
-      row.Provider.toLowerCase().includes(filters.search.toLowerCase()) ||
-      row.Type.toLowerCase().includes(filters.search.toLowerCase()) ||
-      row["Order Number"]
-        .toLowerCase()
-        .includes(filters.search.toLowerCase()) ||
-      row["Completed Date"].toString().includes(filters.search.toLowerCase()) ||
-      row["Engine Hours"].toString().includes(filters.search.toLowerCase()) ||
-      row["Total Amount"].toString().includes(filters.search.toLowerCase());
+    // Date range filter
+    if (filters.dateRange.start && filters.dateRange.end) {
+      const rowDate = new Date(row["Completed Date"]);
+      const startDate = new Date(filters.dateRange.start);
+      const endDate = new Date(filters.dateRange.end);
 
-    const matchesProvider =
-      filters.provider === "all" ||
-      row.Provider.toLowerCase() === filters.provider.toLowerCase();
+      // Set time to midnight for proper date comparison
+      rowDate.setHours(0, 0, 0, 0);
+      startDate.setHours(0, 0, 0, 0);
+      endDate.setHours(0, 0, 0, 0);
 
-    const matchesTruck =
-      filters.truck === "all" ||
-      row.Equipment.toLowerCase() === filters.truck.toLowerCase();
+      if (!(rowDate >= startDate && rowDate <= endDate)) {
+        return false;
+      }
+    }
 
-    const matchesType =
-      filters.type === "ALL" ||
-      row.Type.toLowerCase() === filters.type.toLowerCase();
+    // Search filter
+    if (
+      filters.search &&
+      !row["Order Number"].toLowerCase().includes(filters.search.toLowerCase())
+    ) {
+      return false;
+    }
 
-    const matchesTrailer =
-      filters.truck === "all" ||
-      row.Equipment.toLowerCase() === filters.truck.toLowerCase();
+    // Provider filter
+    if (filters.provider !== "all" && row.Provider !== filters.provider) {
+      return false;
+    }
 
-    const matchesDriver =
-      filters.driver === "all" ||
-      row.Driver.toLowerCase() === filters.driver.toLowerCase();
+    // Truck filter
+    if (filters.truck !== "all" && row.Equipment !== filters.truck) {
+      return false;
+    }
 
-    const matchesLatest =
-      filters.driver === "all" ||
-      row.Driver.toLowerCase() === filters.driver.toLowerCase();
+    // Trailer filter
+    if (filters.trailer !== "all" && row.Equipment !== filters.trailer) {
+      return false;
+    }
 
-    return (
-      matchesSearch &&
-      matchesProvider &&
-      matchesTrailer &&
-      matchesTruck &&
-      matchesDriver &&
-      matchesLatest &&
-      matchesType
-    );
+    // Driver filter
+    if (filters.driver !== "all" && row.Driver !== filters.driver) {
+      return false;
+    }
+
+    return true;
   });
 };
