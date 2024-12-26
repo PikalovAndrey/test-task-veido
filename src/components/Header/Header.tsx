@@ -30,6 +30,20 @@ export const Header: React.FC<HeaderProps> = ({
     (row) => row.Type === "Emergency"
   ).length;
 
+  const avatarsUrl = Array.from(new Set(tableInfo.map((item) => item.img))).map(
+    (item) => `${process.env.PUBLIC_URL}${item}`
+  );
+
+  const shuffleArray = (array: string[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+
+  const shuffledAvatars = shuffleArray([...avatarsUrl]);
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     onSearch(e.target.value);
@@ -95,11 +109,14 @@ export const Header: React.FC<HeaderProps> = ({
 
       <div className="right-section">
         <div className="user-info">
-          <img
-            src={`${process.env.PUBLIC_URL}/img/cristopher-mcGill.jpg`}
-            alt="User avatar"
-            className="avatar"
-          />
+          {shuffledAvatars.map((avatar, index) => (
+            <img
+              key={index}
+              src={avatar}
+              alt="User avatar"
+              className={`avatar avatar-${index}`}
+            />
+          ))}
         </div>
 
         <button className="add-button" onClick={onAddClick}>

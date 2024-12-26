@@ -123,6 +123,7 @@ function App() {
       {isAddModalOpen && (
         <AddModal
           drivers={drivers}
+          tableInfo={tableInfo}
           onSave={handleAddItem}
           onClose={() => setIsAddModalOpen(false)}
         />

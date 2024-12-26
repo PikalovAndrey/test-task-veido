@@ -3,6 +3,7 @@ import { TableRow } from "../../types/TableRow";
 import "../AddModal/AddModal.css";
 
 interface AddModalProps {
+  tableInfo: TableRow[];
   drivers: {
     name: string;
     img: string;
@@ -11,9 +12,14 @@ interface AddModalProps {
   onClose: () => void;
 }
 
-const AddModal: React.FC<AddModalProps> = ({ drivers, onSave, onClose }) => {
+const AddModal: React.FC<AddModalProps> = ({
+  tableInfo,
+  drivers,
+  onSave,
+  onClose,
+}) => {
   const [newRow, setNewRow] = useState<TableRow>({
-    ID: Date.now(),
+    ID: getMaximumID,
     "Order Number": "",
     Equipment: "",
     Driver: drivers.length > 0 ? drivers[0].name : "",
@@ -55,6 +61,8 @@ const AddModal: React.FC<AddModalProps> = ({ drivers, onSave, onClose }) => {
       }));
     }
   };
+
+  const getMaximumID = Math.max(...tableInfo.map((item) => item.ID)) + 1;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -179,15 +187,6 @@ const AddModal: React.FC<AddModalProps> = ({ drivers, onSave, onClose }) => {
               type="text"
               name="Files"
               value={newRow.Files}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            Image:
-            <input
-              type="text"
-              name="img"
-              value={newRow.img}
               onChange={handleInputChange}
             />
           </label>
