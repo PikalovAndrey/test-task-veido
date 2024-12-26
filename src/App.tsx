@@ -21,29 +21,31 @@ function App() {
     truck: "all",
     trailer: "all",
     driver: "all",
-    type: "ALL",
+    type: "ALL", // Початкове значення
   });
 
+  // Спочатку фільтруємо за типом (planned, unplanned, emergency)
+  const typeFilteredData = useMemo(() => {
+    if (filters.type === "ALL") return tableInfo;
+    return tableInfo.filter((row) => row.Type === filters.type);
+  }, [tableInfo, filters.type]);
+
+  // Потім застосовуємо інші фільтри
   const filteredData = useMemo(
-    () => filterData(tableInfo, filters),
-    [tableInfo, filters]
+    () => filterData(typeFilteredData, filters),
+    [typeFilteredData, filters]
   );
 
+  // Сортуємо за датою, якщо вибрано latest або oldest
   const sortedData = useMemo(() => {
-    return filteredData.sort((a, b) => {
-      if (filters.type === "latest") {
-        return (
-          new Date(b["Completed Date"]).getTime() -
-          new Date(a["Completed Date"]).getTime()
-        );
-      } else if (filters.type === "oldest") {
-        return (
-          new Date(a["Completed Date"]).getTime() -
-          new Date(b["Completed Date"]).getTime()
-        );
-      }
-      return 0;
-    });
+    if (filters.type === "latest" || filters.type === "oldest") {
+      return filteredData.sort((a, b) => {
+        const dateA = new Date(a["Completed Date"]).getTime();
+        const dateB = new Date(b["Completed Date"]).getTime();
+        return filters.type === "latest" ? dateB - dateA : dateA - dateB;
+      });
+    }
+    return filteredData;
   }, [filteredData, filters.type]);
 
   const drivers = Array.from(
