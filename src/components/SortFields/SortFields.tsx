@@ -8,7 +8,7 @@ interface SortFieldsProps {
   onDriverChange: (driver: string) => void;
   onTruckChange: (truck: string) => void;
   onTrailerChange: (trailer: string) => void;
-  onTypeChange: (type: string) => void;
+  onSortOrderChange: (sortOrder: string) => void;
   filters: {
     search: string;
     dateRange: { start: string; end: string };
@@ -17,6 +17,7 @@ interface SortFieldsProps {
     trailer: string;
     driver: string;
     type: string;
+    sortOrder: string;
   };
   tableInfo: TableRow[];
 }
@@ -27,7 +28,7 @@ export const SortFields: FC<SortFieldsProps> = ({
   onDriverChange,
   onTruckChange,
   onTrailerChange,
-  onTypeChange,
+  onSortOrderChange,
   filters,
   tableInfo,
 }) => {
@@ -147,8 +148,8 @@ export const SortFields: FC<SortFieldsProps> = ({
 
         <div className={styles.select}>
           <select
-            value={filters.type}
-            onChange={(e) => onTypeChange(e.target.value)}
+            value={filters.sortOrder}
+            onChange={(e) => onSortOrderChange(e.target.value)}
           >
             <option value="latest">Latest</option>
             <option value="oldest">Oldest</option>

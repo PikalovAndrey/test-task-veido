@@ -30,6 +30,13 @@
   border-radius: 4px;
   width: 140px;
   font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dateInput input:hover {
+  border-color: #6b7280;
+  box-shadow: 0 0 5px rgba(107, 114, 128, 0.3);
+  cursor: pointer;
 }
 
 .dateInput svg {
@@ -53,6 +60,13 @@
   background: white;
   appearance: none;
   font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.select select:hover {
+  border-color: #6b7280;
+  box-shadow: 0 0 5px rgba(107, 114, 128, 0.3);
+  cursor: pointer;
 }
 
 .select::after {
@@ -67,4 +81,8 @@
   border-right: 5px solid transparent;
   border-top: 5px solid #6b7280;
   pointer-events: none;
+}
+
+.select:hover::after {
+  border-top-color: #4b5563;
 }

@@ -23,9 +23,11 @@ export const Header: React.FC<HeaderProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
 
   const plannedCount = tableInfo.filter((row) => row.Type === "Planned").length;
+
   const unplannedCount = tableInfo.filter(
     (row) => row.Type === "Unplanned"
   ).length;
+
   const emergencyCount = tableInfo.filter(
     (row) => row.Type === "Emergency"
   ).length;
@@ -33,16 +35,6 @@ export const Header: React.FC<HeaderProps> = ({
   const avatarsUrl = Array.from(new Set(tableInfo.map((item) => item.img))).map(
     (item) => `${process.env.PUBLIC_URL}${item}`
   );
-
-  const shuffleArray = (array: string[]) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  };
-
-  const shuffledAvatars = shuffleArray([...avatarsUrl]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -109,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       <div className="right-section">
         <div className="user-info">
-          {shuffledAvatars.map((avatar, index) => (
+          {avatarsUrl.map((avatar, index) => (
             <img
               key={index}
               src={avatar}

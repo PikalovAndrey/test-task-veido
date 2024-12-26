@@ -18,8 +18,13 @@ const AddModal: React.FC<AddModalProps> = ({
   onSave,
   onClose,
 }) => {
+  const getMaximumID = (tableInfo: TableRow[]): number => {
+    const maxID = Math.max(...tableInfo.map((item) => item.ID));
+    return maxID + 1;
+  };
+
   const [newRow, setNewRow] = useState<TableRow>({
-    ID: getMaximumID,
+    ID: getMaximumID(tableInfo),
     "Order Number": "",
     Equipment: "",
     Driver: drivers.length > 0 ? drivers[0].name : "",
@@ -61,8 +66,6 @@ const AddModal: React.FC<AddModalProps> = ({
       }));
     }
   };
-
-  const getMaximumID = Math.max(...tableInfo.map((item) => item.ID)) + 1;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

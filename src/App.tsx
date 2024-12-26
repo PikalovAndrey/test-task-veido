@@ -21,7 +21,8 @@ function App() {
     truck: "all",
     trailer: "all",
     driver: "all",
-    type: "ALL", // Початкове значення
+    type: "ALL",
+    sortOrder: "latest",
   });
 
   // Спочатку фільтруємо за типом (planned, unplanned, emergency)
@@ -30,23 +31,18 @@ function App() {
     return tableInfo.filter((row) => row.Type === filters.type);
   }, [tableInfo, filters.type]);
 
-  // Потім застосовуємо інші фільтри
   const filteredData = useMemo(
     () => filterData(typeFilteredData, filters),
     [typeFilteredData, filters]
   );
 
-  // Сортуємо за датою, якщо вибрано latest або oldest
   const sortedData = useMemo(() => {
-    if (filters.type === "latest" || filters.type === "oldest") {
-      return filteredData.sort((a, b) => {
-        const dateA = new Date(a["Completed Date"]).getTime();
-        const dateB = new Date(b["Completed Date"]).getTime();
-        return filters.type === "latest" ? dateB - dateA : dateA - dateB;
-      });
-    }
-    return filteredData;
-  }, [filteredData, filters.type]);
+    return [...filteredData].sort((a, b) => {
+      const dateA = new Date(a["Completed Date"]).getTime();
+      const dateB = new Date(b["Completed Date"]).getTime();
+      return filters.sortOrder === "latest" ? dateB - dateA : dateA - dateB;
+    });
+  }, [filteredData, filters.sortOrder]);
 
   const drivers = Array.from(
     new Set(tableInfo.map((item) => `${item.Driver},${item.img}`))
@@ -63,6 +59,10 @@ function App() {
   const handleFilterChange = (filterName: string, value: string) => {
     setFilters((prev) => ({ ...prev, [filterName]: value }));
     setCurrentPage(1);
+  };
+
+  const handleSortOrderChange = (sortOrder: string) => {
+    setFilters((prev) => ({ ...prev, sortOrder }));
   };
 
   const handleDateRangeChange = (start: string, end: string) => {
@@ -126,7 +126,7 @@ function App() {
         onDriverChange={(driver) => handleFilterChange("driver", driver)}
         onTruckChange={(truck) => handleFilterChange("truck", truck)}
         onTrailerChange={(trailer) => handleFilterChange("trailer", trailer)}
-        onTypeChange={(type) => handleFilterChange("type", type)}
+        onSortOrderChange={handleSortOrderChange}
         filters={filters}
         tableInfo={tableInfo}
       />

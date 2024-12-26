@@ -29,6 +29,13 @@
   background: white;
   appearance: none;
   font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.select select:hover {
+  border-color: #6b7280;
+  box-shadow: 0 0 5px rgba(107, 114, 128, 0.3);
 }
 
 .select::after {
@@ -59,10 +66,12 @@
   border-radius: 4px;
   background: white;
   cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .paginationButton:hover {
   background: #f9fafb;
+  box-shadow: 0 0 5px rgba(107, 114, 128, 0.3);
 }
 
 .paginationButton:disabled {
