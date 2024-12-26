@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/test-task-veido/static/css/main.50a5d0da.css",
-    "main.js": "/test-task-veido/static/js/main.e5813c96.js",
+    "main.js": "/test-task-veido/static/js/main.c9556ea3.js",
     "static/media/header_logo.jpg": "/test-task-veido/static/media/header_logo.d1a604ded679612f36c5.jpg",
     "index.html": "/test-task-veido/index.html",
     "main.50a5d0da.css.map": "/test-task-veido/static/css/main.50a5d0da.css.map",
-    "main.e5813c96.js.map": "/test-task-veido/static/js/main.e5813c96.js.map"
+    "main.c9556ea3.js.map": "/test-task-veido/static/js/main.c9556ea3.js.map"
   },
   "entrypoints": [
     "static/css/main.50a5d0da.css",
-    "static/js/main.e5813c96.js"
+    "static/js/main.c9556ea3.js"
   ]
 }
