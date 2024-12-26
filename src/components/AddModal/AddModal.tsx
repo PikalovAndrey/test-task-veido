@@ -37,16 +37,8 @@ const AddModal: React.FC<AddModalProps> = ({
     "Total Amount": "",
     "Solved Defects": "",
     Files: "",
-    img: "",
+    img: drivers.length > 0 ? `${process.env.PUBLIC_URL}${drivers[0].img}` : "",
   });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setNewRow((prevRow) => ({
-      ...prevRow,
-      [name]: value,
-    }));
-  };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -55,9 +47,7 @@ const AddModal: React.FC<AddModalProps> = ({
       setNewRow((prevRow) => ({
         ...prevRow,
         [name]: value,
-        img: selectedDriver
-          ? `${process.env.PUBLIC_URL}${selectedDriver.img}`
-          : "",
+        img: selectedDriver ? `${selectedDriver.img}` : "",
       }));
     } else {
       setNewRow((prevRow) => ({
@@ -65,6 +55,14 @@ const AddModal: React.FC<AddModalProps> = ({
         [name]: value,
       }));
     }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewRow((prevRow) => ({
+      ...prevRow,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
