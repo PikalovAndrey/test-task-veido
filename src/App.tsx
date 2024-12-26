@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import "./App.css";
 import Table from "./components/Table/Table.tsx";
 import { Header } from "./components/Header/Header.tsx";
 import { SortFields } from "./components/SortFields/SortFields.tsx";
@@ -25,7 +24,6 @@ function App() {
     sortOrder: "latest",
   });
 
-  // Спочатку фільтруємо за типом (planned, unplanned, emergency)
   const typeFilteredData = useMemo(() => {
     if (filters.type === "ALL") return tableInfo;
     return tableInfo.filter((row) => row.Type === filters.type);
@@ -131,15 +129,13 @@ function App() {
         tableInfo={tableInfo}
       />
 
-      <div className="p-4">
-        <Table
-          data={sortedData}
-          rowsPerPage={rowsPerPage}
-          currentPage={currentPage}
-          onSaveItem={handleSaveItem}
-          onDeleteItem={handleDeleteItem}
-        />
-      </div>
+      <Table
+        data={sortedData}
+        rowsPerPage={rowsPerPage}
+        currentPage={currentPage}
+        onSaveItem={handleSaveItem}
+        onDeleteItem={handleDeleteItem}
+      />
       <Footer
         totalRows={filteredData.length}
         currentPage={currentPage}

@@ -1,46 +1,83 @@
-# Getting Started with Create React App
+# Test Task: Video App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+This is a React application written in TypeScript, designed as part of a test task. The application demonstrates proficiency in modern web development technologies by showcasing a functional and responsive user interface.
 
-## Available Scripts
+## Features
+- **React**: Component-based architecture for reusable and maintainable code.
+- **TypeScript**: Statically typed language for enhanced code quality and error prevention.
+- **Responsive Design**: Ensures a great user experience on different devices and screen sizes.
+- **Dynamic Content**: Interactive UI elements that respond to user actions.
 
-In the project directory, you can run:
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/PikalovAndrey/test-task-veido.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd test-task-veido
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-### `npm start`
+## Usage
+1. Start the development server:
+   ```bash
+   npm start
+   ```
+2. Open your browser and visit:
+   ```
+   http://localhost:3000
+   ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Scripts
+- **`npm start`**: Runs the app in the development mode.
+- **`npm run build`**: Builds the app for production.
+- **`npm test`**: Runs the test suite (if applicable).
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Project Structure
+- **`src/`**: Contains the application code.
+  - **`components/`**: Reusable React components.
+  - **`pages/`**: Components corresponding to different routes.
+  - **`styles/`**: CSS or SCSS files for styling the app.
+  - **`utils/`**: Helper functions and utilities.
 
-### `npm test`
+## Technologies Used
+- React
+- TypeScript
+- HTML5 & CSS3
+- npm
+- MaterialUI
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Deployment
+The application is deployed using GitHub Pages and can be accessed at:
+[Live Demo](https://pikalovandrey.github.io/test-task-veido/)
 
-### `npm run build`
+## Contribution
+Contributions are welcome! To contribute:
+1. Fork the repository.
+2. Create a feature branch:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Add new feature"
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature-name
+   ```
+5. Open a pull request.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## License
+This project is licensed under the MIT License. See the `LICENSE` file for details.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Contact
+For any inquiries, please contact:
+**Andrey Pikalov**
+- GitHub: [PikalovAndrey](https://github.com/PikalovAndrey)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
