@@ -10,6 +10,7 @@ interface HeaderProps {
   onSearch: (searchTerm: string) => void;
   onTypeChange: (type: string) => void;
   selectedType: string;
+  onAddClick: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -17,15 +18,14 @@ export const Header: React.FC<HeaderProps> = ({
   onSearch,
   onTypeChange,
   selectedType,
+  onAddClick,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const plannedCount = tableInfo.filter((row) => row.Type === "Planned").length;
-
   const unplannedCount = tableInfo.filter(
     (row) => row.Type === "Unplanned"
   ).length;
-
   const emergencyCount = tableInfo.filter(
     (row) => row.Type === "Emergency"
   ).length;
@@ -96,15 +96,13 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="right-section">
         <div className="user-info">
           <img
-            src="img/cristopher-mcGill.jpg"
+            src={`${process.env.PUBLIC_URL}/img/cristopher-mcGill.jpg`}
             alt="User avatar"
             className="avatar"
           />
-          <span className="user-initials">VS</span>
-          <span className="user-time">1:30</span>
         </div>
 
-        <button className="add-button">
+        <button className="add-button" onClick={onAddClick}>
           <span className="plus-icon">+</span>
           ADD
         </button>

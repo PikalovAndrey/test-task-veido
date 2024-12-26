@@ -6,11 +6,13 @@ import { SortFields } from "./components/SortFields/SortFields.tsx";
 import { Footer } from "./components/Footer/Footer.tsx";
 import { TableRow } from "./types/TableRow.ts";
 import { filterData } from "../src/utils/filters.ts";
+import AddModal from "./components/AddModal/AddModal.tsx";
 
 function App() {
   const [tableInfo, setTableInfo] = useState<TableRow[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const [filters, setFilters] = useState({
     search: "",
@@ -54,9 +56,20 @@ function App() {
     setCurrentPage(newPage);
   };
 
+  const handleSaveItem = (updatedRow: TableRow) => {
+    const updatedData = tableInfo.map((row) =>
+      row.ID === updatedRow.ID ? updatedRow : row
+    );
+    setTableInfo(updatedData);
+  };
+
   const handleDeleteItem = (itemId: number) => {
     const updatedData = tableInfo.filter((row) => row.ID !== itemId);
     setTableInfo(updatedData);
+  };
+
+  const handleAddItem = (newRow: TableRow) => {
+    setTableInfo([...tableInfo, newRow]);
   };
 
   return (
@@ -66,6 +79,7 @@ function App() {
         onSearch={handleSearch}
         onTypeChange={(type) => handleFilterChange("type", type)}
         selectedType={filters.type}
+        onAddClick={() => setIsAddModalOpen(true)}
       />
       <SortFields
         onDateRangeChange={(start, end) =>
@@ -82,12 +96,14 @@ function App() {
           handleFilterChange("trailer", trailer)
         }
         filters={filters}
+        tableInfo={tableInfo}
       />
       <div className="p-4">
         <Table
           data={filteredData}
           rowsPerPage={rowsPerPage}
           currentPage={currentPage}
+          onSaveItem={handleSaveItem}
           onDeleteItem={handleDeleteItem}
         />
       </div>
@@ -98,6 +114,12 @@ function App() {
         onRowsPerPageChange={handleRowsPerPageChange}
         onPageChange={handlePageChange}
       />
+      {isAddModalOpen && (
+        <AddModal
+          onSave={handleAddItem}
+          onClose={() => setIsAddModalOpen(false)}
+        />
+      )}
     </div>
   );
 }

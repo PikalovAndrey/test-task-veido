@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import styles from "../SortFields/SortFields.module.css";
+import { TableRow } from "../../types/TableRow";
 
 interface SortFieldsProps {
   onDateRangeChange: (start: string, end: string) => void;
@@ -16,6 +17,7 @@ interface SortFieldsProps {
     driver: string;
     type: string;
   };
+  tableInfo: TableRow[];
 }
 
 export const SortFields: FC<SortFieldsProps> = ({
@@ -25,6 +27,7 @@ export const SortFields: FC<SortFieldsProps> = ({
   onTruckChange,
   onTrailerChange,
   filters,
+  tableInfo,
 }) => {
   return (
     <div className={styles.container}>
@@ -82,8 +85,13 @@ export const SortFields: FC<SortFieldsProps> = ({
             onChange={(e) => onProviderChange(e.target.value)}
           >
             <option value="all">Provider</option>
-            <option value="provider1">Firecar, LLC</option>
-            <option value="provider2">r-way trailer repair llc</option>
+            {Array.from(new Set(tableInfo.map((row) => row.Provider)))
+              .sort()
+              .map((provider) => (
+                <option key={provider} value={provider}>
+                  {provider}
+                </option>
+              ))}
           </select>
         </div>
 
@@ -93,8 +101,13 @@ export const SortFields: FC<SortFieldsProps> = ({
             onChange={(e) => onTruckChange(e.target.value)}
           >
             <option value="all">Truck</option>
-            <option value="truck1">Truck 1</option>
-            <option value="truck2">Truck 2</option>
+            {Array.from(new Set(tableInfo.map((row) => row.Equipment)))
+              .sort()
+              .map((truck) => (
+                <option key={truck} value={truck}>
+                  {truck}
+                </option>
+              ))}
           </select>
         </div>
 
@@ -104,8 +117,13 @@ export const SortFields: FC<SortFieldsProps> = ({
             onChange={(e) => onTrailerChange(e.target.value)}
           >
             <option value="all">Trailer</option>
-            <option value="trailer1">Trailer 1</option>
-            <option value="trailer2">Trailer 2</option>
+            {Array.from(new Set(tableInfo.map((row) => row.Equipment)))
+              .sort()
+              .map((trailer) => (
+                <option key={trailer} value={trailer}>
+                  {trailer}
+                </option>
+              ))}
           </select>
         </div>
 
@@ -115,8 +133,13 @@ export const SortFields: FC<SortFieldsProps> = ({
             onChange={(e) => onDriverChange(e.target.value)}
           >
             <option value="all">Driver</option>
-            <option value="driver1">Driver 1</option>
-            <option value="driver2">Driver 2</option>
+            {Array.from(new Set(tableInfo.map((row) => row.Driver)))
+              .sort()
+              .map((driver) => (
+                <option key={driver} value={driver}>
+                  {driver}
+                </option>
+              ))}
           </select>
         </div>
 
