@@ -12,7 +12,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [draftItem, setDraftItem] = useState<TableRow | null>(null);
+  const [draftItems, setDraftItems] = useState<TableRow[]>([]);
 
   const [filters, setFilters] = useState({
     search: "",
@@ -95,11 +95,16 @@ function App() {
 
   const handleAddItem = (newRow: TableRow) => {
     setTableInfo([newRow, ...tableInfo]);
-    setDraftItem(null);
+  };
+
+  const handleDeleteDraft = (draftId: number) => {
+    setDraftItems((prevDrafts) =>
+      prevDrafts.filter((draft) => draft.ID !== draftId)
+    );
   };
 
   const handleCancelAdd = (unsavedDraft: TableRow) => {
-    setDraftItem(unsavedDraft);
+    setDraftItems((prevItems) => [...prevItems, unsavedDraft]);
   };
 
   useEffect(() => {
@@ -151,10 +156,11 @@ function App() {
       />
       {isAddModalOpen && (
         <AddModal
-          draftItem={draftItem}
+          draftItems={draftItems}
           drivers={drivers}
           tableInfo={tableInfo}
           onSave={handleAddItem}
+          onDeleteDraft={handleDeleteDraft}
           onClose={(unsavedDraft?: TableRow) => {
             setIsAddModalOpen(false);
             if (unsavedDraft) handleCancelAdd(unsavedDraft);

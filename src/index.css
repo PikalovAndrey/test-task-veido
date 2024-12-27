@@ -27,7 +27,6 @@ code {
   --shadow: rgba(10, 10, 10, 0.1);
 }
 
-/* Застосовуємо змінні до елементів Bulma */
 .light-theme {
   background-color: var(--background);
   color: var(--text);

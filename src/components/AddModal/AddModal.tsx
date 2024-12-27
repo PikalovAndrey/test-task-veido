@@ -4,29 +4,115 @@ import "../AddModal/AddModal.css";
 
 interface AddModalProps {
   tableInfo: TableRow[];
-  draftItem: TableRow | null;
+  draftItems: TableRow[];
   drivers: {
     name: string;
     img: string;
   }[];
   onSave: (newRow: TableRow) => void;
   onClose: (unsavedDraft?: TableRow) => void;
+  onDeleteDraft: (draftId: number) => void;
 }
 
 const AddModal: React.FC<AddModalProps> = ({
   tableInfo,
   drivers,
-  draftItem,
+  draftItems,
   onSave,
   onClose,
+  onDeleteDraft,
 }) => {
   const getMaximumID = (tableInfo: TableRow[]): number => {
     const maxID = Math.max(...tableInfo.map((item) => item.ID));
     return maxID + 1;
   };
 
+  const [currentDraftIndex, setCurrentDraftIndex] = useState(0);
+  const [isModified, setIsModified] = useState(false);
+
   const [newRow, setNewRow] = useState<TableRow>(
-    draftItem || {
+    draftItems.length > 0
+      ? draftItems[0]
+      : {
+          ID: getMaximumID(tableInfo),
+          "Order Number": "",
+          Equipment: "",
+          Driver: "",
+          Type: "",
+          "Completed Date": "",
+          Provider: "",
+          "Engine Hours": 0,
+          Odometer: "",
+          "Last Service": "",
+          "Total Amount": "",
+          "Solved Defects": "",
+          Files: "",
+          img:
+            drivers.length > 0
+              ? `${process.env.PUBLIC_URL}${drivers[0].img}`
+              : "",
+        }
+  );
+
+  const isFormValid = () => {
+    return (
+      newRow.Driver &&
+      newRow["Order Number"] &&
+      newRow.Equipment &&
+      newRow.Type &&
+      newRow["Completed Date"] &&
+      newRow.Provider &&
+      newRow.Odometer &&
+      newRow["Total Amount"]
+    );
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    if (name === "Driver") {
+      setIsModified(true);
+      const selectedDriver = drivers.find((driver) => driver.name === value);
+      setNewRow((prevRow) => ({
+        ...prevRow,
+        [name]: value,
+        img: selectedDriver ? `${selectedDriver.img}` : "",
+      }));
+    } else {
+      setIsModified(true);
+      setNewRow((prevRow) => ({
+        ...prevRow,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setIsModified(true);
+    setNewRow((prevRow) => ({
+      ...prevRow,
+      [name]: value,
+    }));
+  };
+
+  const handlePreviousDraft = () => {
+    if (currentDraftIndex > 0) {
+      setCurrentDraftIndex(currentDraftIndex - 1);
+      setNewRow(draftItems[currentDraftIndex - 1]);
+      setIsModified(false);
+    }
+  };
+
+  const handleNextDraft = () => {
+    if (currentDraftIndex < draftItems.length - 1) {
+      setCurrentDraftIndex(currentDraftIndex + 1);
+      setNewRow(draftItems[currentDraftIndex + 1]);
+      setIsModified(false);
+    }
+  };
+
+  const handleCreateNew = () => {
+    setNewRow({
       ID: getMaximumID(tableInfo),
       "Order Number": "",
       Equipment: "",
@@ -42,32 +128,8 @@ const AddModal: React.FC<AddModalProps> = ({
       Files: "",
       img:
         drivers.length > 0 ? `${process.env.PUBLIC_URL}${drivers[0].img}` : "",
-    }
-  );
-
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    if (name === "Driver") {
-      const selectedDriver = drivers.find((driver) => driver.name === value);
-      setNewRow((prevRow) => ({
-        ...prevRow,
-        [name]: value,
-        img: selectedDriver ? `${selectedDriver.img}` : "",
-      }));
-    } else {
-      setNewRow((prevRow) => ({
-        ...prevRow,
-        [name]: value,
-      }));
-    }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setNewRow((prevRow) => ({
-      ...prevRow,
-      [name]: value,
-    }));
+    });
+    setIsModified(false);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -76,17 +138,96 @@ const AddModal: React.FC<AddModalProps> = ({
     onClose();
   };
 
+  const handleClose = () => {
+    if (isModified) {
+      onClose(newRow);
+    } else {
+      onClose();
+    }
+  };
+
   const handleSave = () => {
     onSave(newRow);
     onClose();
   };
 
+  const handleDeleteCurrentDraft = () => {
+    const currentDraft = draftItems[currentDraftIndex];
+
+    onDeleteDraft(currentDraft.ID);
+
+    if (draftItems.length > 1) {
+      if (currentDraftIndex === draftItems.length - 1) {
+        const newIndex = currentDraftIndex - 1;
+        setCurrentDraftIndex(newIndex);
+        setNewRow(draftItems[newIndex]);
+      } else {
+        setNewRow(draftItems[currentDraftIndex + 1]);
+      }
+    } else {
+      handleCreateNew();
+    }
+  };
+
   return (
     <div className="modal">
       <div className="modal-content">
-        {/* <span className="close" onClick={onClose}>
-          &times;
-        </span> */}
+        <h2>Add/Edit Item</h2>
+        <div className="buttons">
+          <button
+            type="button"
+            onClick={handleCreateNew}
+            className="create-new-btn"
+          >
+            Create New
+          </button>
+        </div>
+        {draftItems.length > 0 && (
+          <div className="draft-controls">
+            <label>
+              Select Draft:
+              <select
+                value={currentDraftIndex}
+                onChange={(e) => {
+                  const selectedIndex = parseInt(e.target.value, 10);
+                  setCurrentDraftIndex(selectedIndex);
+                  setNewRow(draftItems[selectedIndex]);
+                }}
+              >
+                {draftItems.map((_, index) => (
+                  <option key={index} value={index}>
+                    Draft {index + 1}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className="buttons">
+              <button
+                type="button"
+                onClick={handlePreviousDraft}
+                disabled={currentDraftIndex === 0}
+              >
+                Previous
+              </button>
+              <button
+                type="button"
+                onClick={handleNextDraft}
+                disabled={currentDraftIndex === draftItems.length - 1}
+              >
+                Next
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteCurrentDraft}
+                className="delete-draft-btn"
+                style={{ backgroundColor: "#dc3545", color: "white" }}
+              >
+                Delete Draft
+              </button>
+            </div>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
           <label>
             Order Number:
@@ -113,6 +254,9 @@ const AddModal: React.FC<AddModalProps> = ({
               value={newRow.Driver}
               onChange={handleSelectChange}
             >
+              <option value="" disabled>
+                Select driver
+              </option>
               {drivers.map((driver) => (
                 <option key={driver.name} value={driver.name}>
                   {driver.name}
@@ -120,6 +264,7 @@ const AddModal: React.FC<AddModalProps> = ({
               ))}
             </select>
           </label>
+
           <label>
             Type:
             <input
@@ -201,11 +346,16 @@ const AddModal: React.FC<AddModalProps> = ({
               onChange={handleInputChange}
             />
           </label>
+
           <div className="buttons">
-            <button onClick={handleSave} type="submit">
+            <button
+              type="submit"
+              onClick={handleSave}
+              disabled={!isFormValid()}
+            >
               Save
             </button>
-            <button onClick={() => onClose(newRow)} type="button">
+            <button type="button" onClick={handleClose}>
               Cancel
             </button>
           </div>
