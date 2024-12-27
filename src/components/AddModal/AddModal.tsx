@@ -116,7 +116,7 @@ const AddModal: React.FC<AddModalProps> = ({
       ID: getMaximumID(tableInfo),
       "Order Number": "",
       Equipment: "",
-      Driver: drivers.length > 0 ? drivers[0].name : "",
+      Driver: "",
       Type: "",
       "Completed Date": "",
       Provider: "",
@@ -151,22 +151,12 @@ const AddModal: React.FC<AddModalProps> = ({
     onClose();
   };
 
-  const handleDeleteCurrentDraft = () => {
-    const currentDraft = draftItems[currentDraftIndex];
+  const handleDeleteAllDrafts = () => {
+    draftItems.forEach((draft) => {
+      onDeleteDraft(draft.ID);
+    });
 
-    onDeleteDraft(currentDraft.ID);
-
-    if (draftItems.length > 1) {
-      if (currentDraftIndex === draftItems.length - 1) {
-        const newIndex = currentDraftIndex - 1;
-        setCurrentDraftIndex(newIndex);
-        setNewRow(draftItems[newIndex]);
-      } else {
-        setNewRow(draftItems[currentDraftIndex + 1]);
-      }
-    } else {
-      handleCreateNew();
-    }
+    handleCreateNew();
   };
 
   return (
@@ -218,11 +208,11 @@ const AddModal: React.FC<AddModalProps> = ({
               </button>
               <button
                 type="button"
-                onClick={handleDeleteCurrentDraft}
+                onClick={handleDeleteAllDrafts}
                 className="delete-draft-btn"
                 style={{ backgroundColor: "#dc3545", color: "white" }}
               >
-                Delete Draft
+                Delete All Drafts
               </button>
             </div>
           </div>
