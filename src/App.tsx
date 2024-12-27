@@ -12,6 +12,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [draftItem, setDraftItem] = useState<TableRow | null>(null);
 
   const [filters, setFilters] = useState({
     search: "",
@@ -94,6 +95,11 @@ function App() {
 
   const handleAddItem = (newRow: TableRow) => {
     setTableInfo([newRow, ...tableInfo]);
+    setDraftItem(null);
+  };
+
+  const handleCancelAdd = (unsavedDraft: TableRow) => {
+    setDraftItem(unsavedDraft);
   };
 
   useEffect(() => {
@@ -145,10 +151,14 @@ function App() {
       />
       {isAddModalOpen && (
         <AddModal
+          draftItem={draftItem}
           drivers={drivers}
           tableInfo={tableInfo}
           onSave={handleAddItem}
-          onClose={() => setIsAddModalOpen(false)}
+          onClose={(unsavedDraft?: TableRow) => {
+            setIsAddModalOpen(false);
+            if (unsavedDraft) handleCancelAdd(unsavedDraft);
+          }}
         />
       )}
     </div>

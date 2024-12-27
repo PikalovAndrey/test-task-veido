@@ -4,17 +4,19 @@ import "../AddModal/AddModal.css";
 
 interface AddModalProps {
   tableInfo: TableRow[];
+  draftItem: TableRow | null;
   drivers: {
     name: string;
     img: string;
   }[];
   onSave: (newRow: TableRow) => void;
-  onClose: () => void;
+  onClose: (unsavedDraft?: TableRow) => void;
 }
 
 const AddModal: React.FC<AddModalProps> = ({
   tableInfo,
   drivers,
+  draftItem,
   onSave,
   onClose,
 }) => {
@@ -23,22 +25,25 @@ const AddModal: React.FC<AddModalProps> = ({
     return maxID + 1;
   };
 
-  const [newRow, setNewRow] = useState<TableRow>({
-    ID: getMaximumID(tableInfo),
-    "Order Number": "",
-    Equipment: "",
-    Driver: drivers.length > 0 ? drivers[0].name : "",
-    Type: "",
-    "Completed Date": "",
-    Provider: "",
-    "Engine Hours": 0,
-    Odometer: "",
-    "Last Service": "",
-    "Total Amount": "",
-    "Solved Defects": "",
-    Files: "",
-    img: drivers.length > 0 ? `${process.env.PUBLIC_URL}${drivers[0].img}` : "",
-  });
+  const [newRow, setNewRow] = useState<TableRow>(
+    draftItem || {
+      ID: getMaximumID(tableInfo),
+      "Order Number": "",
+      Equipment: "",
+      Driver: drivers.length > 0 ? drivers[0].name : "",
+      Type: "",
+      "Completed Date": "",
+      Provider: "",
+      "Engine Hours": 0,
+      Odometer: "",
+      "Last Service": "",
+      "Total Amount": "",
+      "Solved Defects": "",
+      Files: "",
+      img:
+        drivers.length > 0 ? `${process.env.PUBLIC_URL}${drivers[0].img}` : "",
+    }
+  );
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -71,12 +76,17 @@ const AddModal: React.FC<AddModalProps> = ({
     onClose();
   };
 
+  const handleSave = () => {
+    onSave(newRow);
+    onClose();
+  };
+
   return (
     <div className="modal">
       <div className="modal-content">
-        <span className="close" onClick={onClose}>
+        {/* <span className="close" onClick={onClose}>
           &times;
-        </span>
+        </span> */}
         <form onSubmit={handleSubmit}>
           <label>
             Order Number:
@@ -191,7 +201,14 @@ const AddModal: React.FC<AddModalProps> = ({
               onChange={handleInputChange}
             />
           </label>
-          <button type="submit">Save</button>
+          <div className="buttons">
+            <button onClick={handleSave} type="submit">
+              Save
+            </button>
+            <button onClick={() => onClose(newRow)} type="button">
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>

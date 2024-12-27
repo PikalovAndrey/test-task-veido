@@ -24,20 +24,9 @@
   transform: translateY(-50%);
 }
 
-.close {
-  color: #aaa;
-  position: absolute;
-  top: 1px;
-  right: 14px;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+.buttons {
+  display: flex;
+  justify-content: space-around;
 }
 
 .modal-content form label {
