@@ -11,17 +11,17 @@ interface Filters {
 }
 
 export const filterData = (data: TableRow[], filters: Filters) => {
-  return data.filter((row) => {
+  const filteredData = data.filter((row) => {
     if (filters.dateRange.start && filters.dateRange.end) {
       const rowDate = new Date(row["Completed Date"]);
       const startDate = new Date(filters.dateRange.start);
       const endDate = new Date(filters.dateRange.end);
 
-      rowDate.setHours(0, 0, 0, 0);
-      startDate.setHours(0, 0, 0, 0);
-      endDate.setHours(0, 0, 0, 0);
-
-      if (!(rowDate >= startDate && rowDate <= endDate)) {
+      if (
+        isNaN(rowDate.getTime()) ||
+        rowDate < startDate ||
+        rowDate > endDate
+      ) {
         return false;
       }
     }
@@ -54,4 +54,42 @@ export const filterData = (data: TableRow[], filters: Filters) => {
 
     return true;
   });
+
+  if (filters.type === "latest") {
+    return filteredData.sort((a, b) => {
+      const dateA = new Date(a["Completed Date"]);
+      const dateB = new Date(b["Completed Date"]);
+
+      if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+        console.warn(
+          "Invalid date encountered during sorting:",
+          a["Completed Date"],
+          b["Completed Date"]
+        );
+        return 0;
+      }
+
+      return dateB.getTime() - dateA.getTime();
+    });
+  }
+
+  if (filters.type === "oldest") {
+    return filteredData.sort((a, b) => {
+      const dateA = new Date(a["Completed Date"]);
+      const dateB = new Date(b["Completed Date"]);
+
+      if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+        console.warn(
+          "Invalid date encountered during sorting:",
+          a["Completed Date"],
+          b["Completed Date"]
+        );
+        return 0;
+      }
+
+      return dateA.getTime() - dateB.getTime();
+    });
+  }
+
+  return filteredData;
 };
